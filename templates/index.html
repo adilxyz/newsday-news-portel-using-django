@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %} {% load static %}
+{% load paginator_tags %}
+            <div class="news-section">
+                <ul class="news">
+                    {% for news in instances %}
+                        <li>
+                            <a href="{% url 'web:news' id=news.id %}">
+                                <div class="news-image">
+                                    <img src="{{news.featured_image.url}}" alt="News">
+                                </div>
+                                <div class="details">
+                                    {% for category in news.categories.all %}
+                                        <h4>{{category.title}}</h4>
+                                    {% endfor %}
+                                    <span>{{news.published_date}}</span>
+                                </div>
+                                <h3 class="head">
+                                    {{news.title}}
+                                </h3>
+                            </a>
+                        </li>
+                    {% endfor %} 
+                </ul>
+                {% if instances.has_other_pages %}
+                    <div class="pagination">
+                        {% if instances.has_previous %}
+                            <a href="?page={{instances.previous_page_number}}" class="prev">
+                                <span class="arrow">
+                                    <img
+                                        src="{% static './images/icons/arrow.svg' %}"
+                                        alt="Arrow"
+                                    />
+                                </span>
+                            </a>
+                        {% else %}
+                            <div class="prev disabled">
+                                <span class="arrow">
+                                    <img
+                                        src="{% static './images/icons/arrow.svg' %}"
+                                        alt="Arrow"
+                                    />
+                                </span>
+                            </div>
+                        {% endif %}
+                        <div class="pages">
+                            {% get_elided_page_rage instances.paginator instances.number as page_range %}
+                            {% for i in page_range %}
+                                {% if instances.number == i %}
+                                    <span class="active">{{i}}</span>
+                                {% else %}
+                                    <a href="?page={{i}}">{{i}}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if instances.has_next %}
+                            <a href="?page={{instances.next_page_number}}" class="next">
+                                <span class="arrow">
+                                    <img
+                                        src="{% static './images/icons/arrow.svg' %}"
+                                        alt="Arrow"
+                                    />
+                                </span>
+                            </a>
+                        {% else %}
+                            <div class="next disabled">
+                                <span class="arrow">
+                                    <img
+                                        src="{% static './images/icons/arrow.svg' %}"
+                                        alt="Arrow"
+                                    />
+                                </span>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+{% endblock %}

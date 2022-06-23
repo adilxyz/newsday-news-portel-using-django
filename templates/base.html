@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static './images/favicon.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static './css/style.css' %}" type="text/css" />
+    <title>NEWS DAY | Read News Daily</title>
+    <meta property="og:image" content="" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+</head>
+<body>
+    <header>
+        <section class="wrapper">
+            <div class="left">
+                <h1>
+                    <a href="{% url 'web:index' %}"><img src="{% static './images/logos/logo.png' %}" alt="Logo"></a>
+                </h1>
+            </div>
+            <div class="right">
+                <ul>
+                    {% for category in top_menu %}
+                        <li><a href="{% url 'web:index' %}?category={{category.id}}">{{category.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <a id="menu-icon">
+                <img src="{% static 'images/icons/menu.svg' %}" />
+            </a>
+            <nav id="mobile-menu">
+                <ul class="menu">
+                    {% for category in categories %}
+                        <li><a href="{% url 'web:index' %}?category={{category.id}}">{{category.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <span class="close"><img src="{% static 'images/icons/close.svg' %}" alt="" /></span>
+        </section>
+        <span class="overlay"></span>
+    </header>
+    <section id="spotlight">
+        <section class="wrapper">
+            <div class="left-slide-bar">
+                <h3>CATEGORIES</h3>
+                <ul>
+                    {% for category in categories %}
+                        <li><a href="{% url 'web:index' %}?category={{category.id}}">{{category.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% block content %} {% endblock %}
+
+            <div class="right-slide-bar">
+                <h3>TODAY NEWS</h3>
+                <ul>
+                    {% for news in trending %}
+                        <li>
+                            <a href="{% url 'web:news' id=news.id %}">
+                                <img src="{{news.featured_image.url}}" alt="News">
+                                <h3>{{news.title}}</h3>    
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <h3>ENTERTINEMENT</h3>
+                <ul>
+                    {% for news in entertinement %}
+                        <li>
+                            <a href="{% url 'web:news' id=news.id %}">
+                                <img src="{{news.featured_image.url}}" alt="News">
+                                <h3>{{news.title}}</h3>    
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <h3>EDUCATION</h3>
+                <ul>
+                    {% for news in education %}
+                        <li>
+                            <a href="{% url 'web:news' id=news.id %}">
+                                <img src="{{news.featured_image.url}}" alt="News">
+                                <h3>{{news.title}}</h3>    
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </section>
+
+    <script src="{% static './js/app.js' %}"></script>
+    
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %} {% load static %}
+    <div class="news-section">
+        <h1>{{instances.title}}</h1>
+        <span>{{instances.short_description}}</span>
+        <div class="details">
+            {% for category in instances.categories.all %}
+                <h4>CATEGORY : {{category.title}} |</h4>
+            {% endfor %}
+            <span>POSTED ON : {{instances.published_date}}</span>
+        </div>  
+        <div class="news-image">
+            <img src="{{instances.featured_image.url}}" alt="News">
+        </div> 
+        <p>{{instances.description|safe}}</p>
+    </div>
+{% endblock %}
+            
